@@ -1,3 +1,7 @@
+'''
+Un programa rápido para asegurarse de que los datos se esten enviando correctamente
+'''
+
 import serial
 import time
 import json

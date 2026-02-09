@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-# Se asume que gui_controls.py define la clase GUIControls
 from .gui_controlsTk import GUIControls
 from .gui_layoutTk import SpectrometerGUI
 from .gui_histograma import SerialHistogram
@@ -12,12 +11,6 @@ from main import data_queue
 class GUIMain(tk.Tk):
     def __init__(self):
         super().__init__()
-        
-        #PRUEBA
-        #print("hola hoal")
-        #self.label = tk.Label(self, text="---")
-        #self.label.pack()
-        #PRUEBA
 
         self.title("Espectrometro")
         self.geometry("1000x600")
@@ -60,3 +53,4 @@ class GUIMain(tk.Tk):
 
     def run(self):
         self.mainloop()
+

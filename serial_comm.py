@@ -11,21 +11,19 @@ class SerialManager:
         self.ser = None
 
     def connect(self):
-        """Abre la conexión serie"""
         try:
             self.ser = serial.Serial(
                 port=self.port,
                 baudrate=self.baudrate,
                 timeout=self.timeout
             )
-            time.sleep(2)  # tiempo para que el micro reinicie
+            time.sleep(2)
             return True
         except serial.SerialException as e:
             print(f"Error al abrir el puerto serie: {e}")
             return False
 
     def disconnect(self):
-        """Cierra la conexión serie"""
         if self.ser and self.ser.is_open:
             self.ser.close()
 
@@ -33,10 +31,6 @@ class SerialManager:
         return self.ser is not None and self.ser.is_open
 
     def send(self, message):
-        """
-        Envía un mensaje al micro.
-        message: str (se agrega '\n' automáticamente)
-        """
         if not self.is_connected():
             return False
 
@@ -48,10 +42,6 @@ class SerialManager:
             return False
 
     def read_line(self):
-        """
-        Lee una línea del puerto serie.
-        Devuelve str o None
-        """
         if not self.is_connected():
             return None
 
@@ -69,10 +59,6 @@ class SerialManager:
             return None
 
     def read_json(self):
-        """
-        Lee una línea y la intenta parsear como JSON.
-        Devuelve dict o None
-        """
         line = self.read_line()
         if not line:
             return None
@@ -80,7 +66,7 @@ class SerialManager:
         try:
             return json.loads(line)
         except json.JSONDecodeError:
-            # línea válida pero no es JSON
             return None
+
 
     

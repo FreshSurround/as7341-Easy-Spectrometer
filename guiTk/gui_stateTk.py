@@ -3,12 +3,6 @@ from typing import Dict, Any
 
 
 class GUIState:
-    """
-    Estado centralizado de la GUI.
-    Guarda los últimos valores recibidos del ESP32
-    y flags de estado de la interfaz.
-    """
-
     def __init__(self):
         self._lock = Lock()
 
@@ -26,9 +20,6 @@ class GUIState:
         self.last_error = None
 
     def update_from_esp32(self, frame: Dict[str, Any]):
-        """
-        Actualiza el estado con un frame proveniente del ESP32
-        """
         with self._lock:
             for key in self.data:
                 if key in frame:
@@ -47,10 +38,6 @@ class GUIState:
             self.last_error = error
 
     def snapshot(self) -> Dict[str, Any]:
-        """
-        Devuelve una copia segura del estado actual
-        (para que la GUI lea sin romper hilos)
-        """
         with self._lock:
             return {
                 "data": self.data.copy(),

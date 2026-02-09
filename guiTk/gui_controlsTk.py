@@ -1,14 +1,3 @@
-"""
-gui_controls.py
-----------------
-Lógica de controles de la GUI.
-
-Responsabilidades:
-- Recibir eventos de UI (sliders, botones, toggles)
-- Validar y normalizar valores
-- Enviar comandos al ControlManager / SerialManager
-- Mantener estado local simple de controles
-"""
 
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
@@ -27,22 +16,13 @@ class ControlState:
 
 class GUIControls(tk.Frame):
     def __init__(self, parent, controller):
-        """
-        controller: instancia de ControlManager (o similar)
-        """
         super().__init__(parent)
         self.controller = controller
         self.state = ControlState(extra={})
 
-    # -----------------
-    # Utilidades
-    # -----------------
     def _clamp(self, value: float, vmin: float, vmax: float) -> float:
         return max(vmin, min(vmax, value))
 
-    # -----------------
-    # Handlers públicos
-    # -----------------
     def set_gain(self, value: float):
         value = float(value)
         value = self._clamp(value, 0.1, 10.0)
@@ -67,9 +47,6 @@ class GUIControls(tk.Frame):
         self.state.channel = channel
         self.controller.set_param("channel", channel)
 
-    # -----------------
-    # Acciones
-    # -----------------
     def request_calibration(self):
         self.controller.send_command({"cmd": "calibrate"})
 
@@ -79,14 +56,7 @@ class GUIControls(tk.Frame):
         self.toggle_pause(False)
         self.select_channel(0)
 
-    # -----------------
-    # Sincronización
-    # -----------------
     def sync_from_device(self, params: Dict[str, Any]):
-        """
-        Actualiza el estado local a partir de parámetros recibidos
-        desde el ESP32.
-        """
         if "gain" in params:
             self.state.gain = float(params["gain"])
         if "offset" in params:

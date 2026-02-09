@@ -8,7 +8,6 @@ import time
 data_queue = Queue()
 
 def main():
-    # Inicializaciones
     serial_mgr = SerialManager(SERIAL_PORT, BAUDRATE)
     processor = DataProcessor()
     storage = DataManager()
@@ -22,7 +21,7 @@ def main():
     try:
         while conect_flag is True:
             raw_data = serial_mgr.read_line()
-            print(raw_data)
+            #print(raw_data)
             if raw_data is None:
                 print("raw_data is Empty")
                 cont=cont+1
@@ -32,13 +31,16 @@ def main():
                     break
 
             else:
+                '''
+                ## ORIGINAL (pasa str a dict) ##
                 processed = processor.process_frame(raw_data)
                 if processed is None:
                     print("processed_frame is Empty")
                     continue
-
-                storage.registrarDatos(processed)
-                data_queue.put(processed)
+                ## ## ## ## ## ## ## ## ## ## ##
+                '''
+                #storage.registrarDatos(processed)
+                data_queue.put(raw_data)                ##le pasa raw (str) asi el histograma puede procesarla por su cuenta
                 time.sleep(READ_INTERVAL)
                 #print("todo ok")
 
@@ -53,3 +55,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

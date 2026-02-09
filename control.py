@@ -14,23 +14,20 @@ class Controller:
         self.running = False
 
     def start(self):
-        """Inicia el loop principal"""
         self.serial.connect()
         self.running = True
         print("Controlador iniciado")
 
         while self.running:
             self.loop()
-            time.sleep(0.05)  # evita uso excesivo de CPU
+            time.sleep(0.05)
 
     def stop(self):
-        """Detiene el sistema"""
         self.running = False
         self.serial.disconnect()
         print("Controlador detenido")
 
     def loop(self):
-        """Ciclo principal"""
         raw_data = self.serial.read_line()
 
         if raw_data is None:
@@ -42,5 +39,5 @@ class Controller:
             self.storage.registrarDatos(processed)
 
     def send_command(self, command):
-        """Envía comandos al microcontrolador"""
         self.serial.write(command)
+
